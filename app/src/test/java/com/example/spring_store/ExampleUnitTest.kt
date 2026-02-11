@@ -1,4 +1,4 @@
-package com.example.racha_app
+package com.example.spring_store
 
 import org.junit.Test
 
