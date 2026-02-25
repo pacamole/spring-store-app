@@ -1,4 +1,4 @@
-package com.example.spring_store.presentation
+package com.example.spring_store.presentation.detail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.spring_store.presentation.detail.DetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,7 +79,7 @@ fun DetailScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Button(onClick = {}, modifier = Modifier.fillMaxWidth()) {
+            Button(onClick = { viewModel.addToCart() }, modifier = Modifier.fillMaxWidth()) {
                 Text("Adicionar ao Carrinho")
             }
         }

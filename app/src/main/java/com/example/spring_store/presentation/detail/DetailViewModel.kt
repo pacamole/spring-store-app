@@ -1,6 +1,7 @@
 package com.example.spring_store.presentation.detail
 
 import androidx.lifecycle.ViewModel
+import com.example.spring_store.data.repository.CartRepository
 import com.example.spring_store.data.repository.ProductRepository
 import com.example.spring_store.domain.model.Product
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,5 +15,13 @@ public class DetailViewModel : ViewModel() {
     fun loadProduct(id: Long) {
         val product: Product? = ProductRepository.gedProductById(id)
         _product.value = product
+    }
+
+    fun addToCart() {
+        val currentProduct = _product.value;
+
+        if(currentProduct != null) {
+            CartRepository.addProduct(currentProduct)
+        }
     }
 }

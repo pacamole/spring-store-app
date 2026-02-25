@@ -1,6 +1,5 @@
 package com.example.spring_store
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,10 +10,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.spring_store.presentation.DetailScreen
+import com.example.spring_store.presentation.cart.CartScreen
+import com.example.spring_store.presentation.detail.DetailScreen
 import com.example.spring_store.presentation.home.HomeScreen
 import com.example.spring_store.presentation.theme.SpringStoreTheme
-import com.google.gson.Gson
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -33,9 +32,10 @@ class MainActivity : ComponentActivity() {
                     composable("home") {
                         HomeScreen(
                             onProductClick = { product ->
-
                                 navController.navigate("details/${product.id}")
-                            })
+                            },
+                            onCartClick = { navController.navigate("cart") }
+                        )
                     }
                     composable(
                         route = "details/{productId}",
@@ -44,9 +44,13 @@ class MainActivity : ComponentActivity() {
                         val stringId = backStackEntry.arguments?.getString("productId")
                         val productId = stringId?.toLong() ?: 0L
 
-                        println("DEBUG NAV: ID extraído da rota = $productId")
                         DetailScreen(
                             productId = productId, onBackClick = { navController.popBackStack() })
+                    }
+                    composable(route = "cart") {
+                        CartScreen(
+                            onBackClick = { navController.popBackStack() },
+                            onCartItemClick = {})
                     }
                 }
             }
