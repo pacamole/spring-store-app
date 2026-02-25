@@ -1,5 +1,6 @@
 package com.example.spring_store.presentation.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel as ViewModel
 @ExperimentalMaterial3Api
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = ViewModel()
+    viewModel: HomeViewModel = ViewModel(), onProductClick: (Product) -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -57,7 +58,7 @@ fun HomeScreen(
                 }
 
                 is HomeUiState.Success -> {
-                    ProductList(products = currentState.products)
+                    ProductList(products = currentState.products, onProductClick = onProductClick)
                 }
             }
         }
@@ -65,12 +66,15 @@ fun HomeScreen(
 }
 
 @Composable
-fun ProductList(products: List<Product>) {
+fun ProductList(products: List<Product>, onProductClick: (Product) -> Unit) {
     LazyColumn(
         contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(products) { product ->
-            Card(modifier = Modifier.fillMaxWidth()) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onProductClick(product) }) {
                 Column(Modifier.padding(16.dp)) {
                     Text(
                         text = product.name,
@@ -82,7 +86,7 @@ fun ProductList(products: List<Product>) {
                         color = MaterialTheme.colorScheme.primary
                     )
                     Text(
-                        text = "Estoque: ${ product.stock }",
+                        text = "Estoque: ${product.stock}",
                         style = MaterialTheme.typography.bodySmall,
                     )
                 }

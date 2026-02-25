@@ -19,13 +19,13 @@ fun SpringStoreTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val DarkColorScheme = darkColorScheme(
+    val darkColorScheme = darkColorScheme(
         primary = Purple80,
         secondary = PurpleGrey80,
         tertiary = Pink80
     )
 
-    val LightColorScheme = lightColorScheme(
+    val lightColorScheme = lightColorScheme(
         primary = Purple40,
         secondary = PurpleGrey40,
         tertiary = Pink40
@@ -47,8 +47,8 @@ fun SpringStoreTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> darkColorScheme
+        else -> lightColorScheme
     }
 
     MaterialTheme(

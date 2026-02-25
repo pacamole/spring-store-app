@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import androidx.lifecycle.viewModelScope
 import com.example.spring_store.data.remote.RetrofitClient
+import com.example.spring_store.data.repository.ProductRepository
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -22,9 +23,9 @@ class HomeViewModel : ViewModel() {
             _uiState.value = HomeUiState.Loading
 
             try {
-                val page = RetrofitClient.api.getProducts()
+                val products = ProductRepository.getProducts()
 
-                _uiState.value = HomeUiState.Success(page.content)
+                _uiState.value = HomeUiState.Success(products)
             } catch (e: Exception) {
                 _uiState.value = HomeUiState.Error("Falha: ${e.message}")
                 e.printStackTrace()

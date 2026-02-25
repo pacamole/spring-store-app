@@ -1,7 +1,7 @@
 package com.example.spring_store.domain.model
 
-import java.math.BigDecimal
 import com.google.gson.annotations.SerializedName
+import java.math.BigDecimal
 
 data class Product(
     val id: Long,
@@ -9,6 +9,5 @@ data class Product(
     val description: String,
     val price: BigDecimal, // GSON consegue converter BigDecimal automaticamente
 
-    @SerializedName("stockQuantity")
-    val stock: Int
+    @SerializedName("stockQuantity") val stock: Int
 )

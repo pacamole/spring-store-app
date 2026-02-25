@@ -1,24 +1,20 @@
 package com.example.spring_store
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.lifecycleScope
-import com.example.spring_store.data.remote.RetrofitClient
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.spring_store.presentation.DetailScreen
 import com.example.spring_store.presentation.home.HomeScreen
 import com.example.spring_store.presentation.theme.SpringStoreTheme
-import kotlinx.coroutines.launch
+import com.google.gson.Gson
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -29,8 +25,29 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SpringStoreTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    HomeScreen()
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController, startDestination = "home"
+                ) {
+                    composable("home") {
+                        HomeScreen(
+                            onProductClick = { product ->
+
+                                navController.navigate("details/${product.id}")
+                            })
+                    }
+                    composable(
+                        route = "details/{productId}",
+                        arguments = listOf(navArgument("productId") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val stringId = backStackEntry.arguments?.getString("productId")
+                        val productId = stringId?.toLong() ?: 0L
+
+                        println("DEBUG NAV: ID extraído da rota = $productId")
+                        DetailScreen(
+                            productId = productId, onBackClick = { navController.popBackStack() })
+                    }
                 }
             }
         }
