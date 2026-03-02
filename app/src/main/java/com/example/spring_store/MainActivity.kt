@@ -13,6 +13,7 @@ import androidx.navigation.navArgument
 import com.example.spring_store.presentation.cart.CartScreen
 import com.example.spring_store.presentation.detail.DetailScreen
 import com.example.spring_store.presentation.home.HomeScreen
+import com.example.spring_store.presentation.login.LoginScreen
 import com.example.spring_store.presentation.theme.SpringStoreTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 NavHost(
-                    navController = navController, startDestination = "home"
+                    navController = navController, startDestination = "login"
                 ) {
                     composable("home") {
                         HomeScreen(
@@ -51,6 +52,9 @@ class MainActivity : ComponentActivity() {
                         CartScreen(
                             onBackClick = { navController.popBackStack() },
                             onCartItemClick = {})
+                    }
+                    composable(route = "login") {
+                        LoginScreen(onLoginSuccess = { navController.navigate("home") })
                     }
                 }
             }
